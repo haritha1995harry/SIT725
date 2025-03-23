@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Compliment Generator</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+  <style>
+    .banner {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 12px 12px 0 0;
+    }
+    .profile-img {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin-top: -60px;
+      border: 5px solid white;
+    }
+    .card {
+      margin-top: 20px;
+    }
+    .app-title {
+      margin-top: 20px;
+      font-size: 28px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body class="grey lighten-4">
+
+  <div class="container">
+    <div class="card z-depth-2">
+      <img src="banner.jpg" alt="Banner" class="banner">
+
+      <div class="center-align">
+        <img src="profile.jpg" alt="Profile" class="profile-img z-depth-2">
+        <div class="app-title">Compliment Generator</div>
+      </div>
+
+      <div class="card-content">
+        <div class="input-field">
+          <input id="nameInput" type="text">
+          <label for="nameInput">Enter Your Name</label>
+        </div>
+        <div class="center-align">
+          <button class="btn waves-effect waves-light" onclick="sendData()">Get Compliment</button>
+        </div>
+        <div id="response" class="card-panel teal lighten-2 white-text center-align" style="margin-top:20px;"></div>
+      </div>
+    </div>
+  </div>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      M.updateTextFields();
+    });
+
+    function sendData() {
+      const name = document.getElementById('nameInput').value;
+      fetch('/api/compliment', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name })
+      })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('response').innerText = data.message;
+      });
+    }
+  </script>
+</body>
+</html>
